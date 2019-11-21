@@ -124,8 +124,8 @@ class SearchAuctions:
             td = form.find('tr', class_="tex3").find('td')
 
             titulo_td = form.find_all('td', class_="td_titulo_campo")[1]
-            cidade = str(titulo_td).split()[-2]
-            cidade = cidade.strip('-')
+            cidade = titulo_td.text.split("-")[0]
+            cidade = cidade.strip()
             uf = str(titulo_td).split()[-1]
             uf = uf.strip('</td>')
 
@@ -261,7 +261,11 @@ class SearchAuctions:
 
                         entrega_proposta_valor = line.split(':')[1]
                         entrega_proposta_valor = entrega_proposta_valor.split('</b>')[1]
-                        entrega_proposta_valor_str = entrega_proposta_valor.split()[3]
+                        if len(entrega_proposta_valor.split()) > 3:
+                            entrega_proposta_valor_str = entrega_proposta_valor.split()[3]
+                        else:
+                            entrega_proposta_valor_str = entrega_proposta_valor.split()[0]
+
                         entrega_proposta_valor_date = datetime.strptime(entrega_proposta_valor_str,
                                                                         '%d/%m/%Y').date()
                         current_result[entrega_proposta_chave_str] = entrega_proposta_valor_str
